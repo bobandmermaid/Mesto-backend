@@ -1,11 +1,11 @@
 {
   "name": "mesto_back",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "dev": "node app"
+    "dev": "nodemon app"
   },
   "author": "Ilya Podolyak <bobandmermaid@yandex.ru>",
   "license": "ISC",
