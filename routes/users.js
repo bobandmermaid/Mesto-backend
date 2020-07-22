@@ -1,11 +1,10 @@
-const routerUsers = require('express').Router();
 const users = require('../data/users.json');
 
-routerUsers.get('/users/', (req, res) => {
+const usersRouter = (req, res) => {
   res.send(users);
-});
+};
 
-routerUsers.get('/users/:id', (req, res) => {
+const userRouter = (req, res) => {
   const { id } = req.params;
   const result = users.find(({ _id }) => _id === id);
 
@@ -14,6 +13,9 @@ routerUsers.get('/users/:id', (req, res) => {
     return;
   }
   res.send(result);
-});
+};
 
-module.exports = routerUsers;
+module.exports = {
+  usersRouter,
+  userRouter,
+};
