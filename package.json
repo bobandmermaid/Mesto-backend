@@ -1,11 +1,11 @@
 {
   "name": "mesto_back",
-  "version": "0.0.1",
-  "description": "",
+  "version": "1.0.6",
+  "description": "Creating the API. Working out a skill for interacting with Node.js and Express.js",
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "dev": "node app"
+    "dev": "nodemon app"
   },
   "author": "Ilya Podolyak <bobandmermaid@yandex.ru>",
   "license": "ISC",
