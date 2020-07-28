@@ -1,6 +1,6 @@
 {
   "name": "mesto_back",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Creating the API. Working out a skill for interacting with Node.js and Express.js",
   "main": "app.js",
   "scripts": {
