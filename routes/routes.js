@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { usersRouter, userRouter } = require('./users');
 const { cardsRouter } = require('./cards');
-const { errorMessage } = require('./errormessage');
+const { errorMessage } = require('./error');
 
 router.get('/users', usersRouter);
 router.get('/users/:id', userRouter);
