@@ -1,4 +1,7 @@
-const users = require('../data/users.json');
+const path = require('path');
+
+// eslint-disable-next-line import/no-dynamic-require
+const users = require(path.join(__dirname, '../data/users.json'));
 
 const usersRouter = (req, res) => {
   res.send(users);
