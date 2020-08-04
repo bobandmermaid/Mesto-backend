@@ -2,7 +2,7 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/bobandmermaid/Mesto-backend?style=flat-square) 
 
 ### О проекте
-+ REST API проекта Mesto(связано с базой данных). 
++ REST API проекта Mesto(связано с базой данных).     
 `Учебный проект сделанный для Яндекс.Практикум`
 
 ### Функциональность
