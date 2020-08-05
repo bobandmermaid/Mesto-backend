@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -26,6 +27,16 @@ app.use((req, res, next) => {
 
 app.use('/cards', require('./routes/cards'));
 app.use('/users', require('./routes/users'));
+
+app.all('*', (req, res) => {
+  throw new Error('Запрашиваемый ресурс не найден');
+});
+
+app.use((err, req, res, next) => {
+  if (err.message === 'Запрашиваемый ресурс не найден') {
+    res.status(404).json({ Error: { message: err.message, stack: err.stack } });
+  }
+});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
