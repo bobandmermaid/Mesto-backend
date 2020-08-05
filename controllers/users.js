@@ -32,7 +32,11 @@ module.exports.updateUser = (req, res) => {
   const { name, about } = req.body;
   const owner = req.user._id;
 
-  User.findByIdAndUpdate(owner, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(
+    owner,
+    { name, about },
+    { new: true, runValidators: true },
+  )
     .then((user) => res.send({ data: user }))
     .catch((err) => res.status(400).send({ message: err.message }));
 };
@@ -41,7 +45,11 @@ module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
   const owner = req.user._id;
 
-  User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(
+    owner,
+    { avatar },
+    { new: true, runValidators: true },
+  )
     .then((user) => res.send({ data: user }))
     .catch((err) => res.status(400).send({ message: err.message }));
 };
