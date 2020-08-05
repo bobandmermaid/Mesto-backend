@@ -19,8 +19,14 @@ module.exports.deleteCard = (req, res) => {
   const { cardId } = req.params;
 
   Card.findByIdAndRemove(cardId)
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(404).send({ message: err.message }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Удалить карточку не представляется возможным!' });
+      } else {
+        res.send({ data: card });
+      }
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.likeCard = (req, res) => {
@@ -31,8 +37,14 @@ module.exports.likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(404).send({ message: err.message }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Лайк не ставится!' });
+      } else {
+        res.send({ data: card });
+      }
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.dislikeCard = (req, res) => {
@@ -43,6 +55,12 @@ module.exports.dislikeCard = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(404).send({ message: err.message }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Лайк не удаляется!' });
+      } else {
+        res.send({ data: card });
+      }
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
