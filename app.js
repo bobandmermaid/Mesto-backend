@@ -30,13 +30,7 @@ app.use('/cards', require('./routes/cards'));
 app.use('/users', require('./routes/users'));
 
 app.all('*', (req, res) => {
-  throw new Error('Запрашиваемый ресурс не найден');
-});
-
-app.use((err, req, res, next) => {
-  if (err.message === 'Запрашиваемый ресурс не найден') {
-    res.status(404).json({ Error: { message: err.message, stack: err.stack } });
-  }
+  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
 });
 
 app.listen(PORT, () => {
