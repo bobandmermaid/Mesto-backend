@@ -2,20 +2,26 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/bobandmermaid/Mesto-backend?style=flat-square) 
 
 ### О проекте
-+ Создание API. Отработка навыка по взаимодействию с Node.js и Express.js  
++ REST API проекта Mesto(связано с базой данных).     
 `Учебный проект сделанный для Яндекс.Практикум`
 
 ### Функциональность
-+ `localhost:3000` загружает фронтенд проекта [Mesto](https://github.com/bobandmermaid/Mesto);
-+ GET-запрос `localhost:3000/users` возвращает JSON-объект со списком пользователей
-+ GET-запрос `localhost:3000/cards` возвращает JSON-объект со списком карточек
-+ GET-запрос `localhost:3000/users/8340d0ec33270a25f2413b69` возвращает JSON-объект пользователя
-+ Если пользователя с запрошенным идентификатором нет, API вернет `404 статус ответа и JSON: { "message": "Нет пользователя с таким id" }`
-+ Если запрашиваемого адреса не существует, API вернет `404 статус ответа и JSON: { "message": "Запрашиваемый ресурс не найден" }`
 
+    GET /users — возвращает всех пользователей из базы
+    GET /users/:userId - возвращает пользователя по _id
+    POST /users — создаёт пользователя с переданными в теле запроса name, about и avatar
+    GET /cards — возвращает все карточки из базы
+    POST /cards — создаёт карточку с переданными в теле запроса name и link
+    DELETE /cards/:cardId — удаляет карточку по _id
+    PATCH /users/me — обновляет профиль
+    PATCH /users/me/avatar — обновляет аватар
+    PUT /cards/:cardId/likes — поставить лайк карточке
+    DELETE /cards/:cardId/likes — убрать лайк с карточки
+    
 ### Стек
 `Node.js`  
-`Express.js`
+`Express.js`  
+`MongoDB`
 
 ### Развёртывание проекта
 1. Установить `Node.js`
