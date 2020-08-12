@@ -15,6 +15,12 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+const logger = (req, res, next) => {
+  console.log('Запрашиваемый путь — ', req.path);
+  next();
+};
+
+app.use(logger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -29,8 +35,8 @@ app.use((req, res, next) => {
 app.use('/cards', require('./routes/cards'));
 app.use('/users', require('./routes/users'));
 
-app.all('*', (req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+app.use((req, res) => {
+  res.status(404).send({ message: 'Запрашиваемый ресурс не найден!' });
 });
 
 app.listen(PORT, () => {

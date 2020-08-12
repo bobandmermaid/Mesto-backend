@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { validationError } = require('./validationError');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -12,19 +13,21 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => {
+      validationError(err, req, res);
+    });
 };
 
 module.exports.deleteCard = (req, res) => {
   const { cardId } = req.params;
 
-  Card.findByIdAndRemove(cardId)
+  Card.findById(cardId)
+    .orFail(() => {
+      res.status(404).send({ message: 'Удалить карточку не представляется возможным!' });
+    })
     .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'Удалить карточку не представляется возможным!' });
-      } else {
-        res.send({ data: card });
-      }
+      card.remove();
+      res.send({ data: card });
     })
     .catch((err) => res.status(500).send({ message: err.message }));
 };
@@ -37,12 +40,11 @@ module.exports.likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .orFail(() => {
+      res.status(404).send({ message: 'Лайк не ставится!' });
+    })
     .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'Лайк не ставится!' });
-      } else {
-        res.send({ data: card });
-      }
+      res.send({ data: card });
     })
     .catch((err) => res.status(500).send({ message: err.message }));
 };
@@ -55,12 +57,11 @@ module.exports.dislikeCard = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
+    .orFail(() => {
+      res.status(404).send({ message: 'Лайк не удаляется!' });
+    })
     .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'Лайк не удаляется!' });
-      } else {
-        res.send({ data: card });
-      }
+      res.send({ data: card });
     })
     .catch((err) => res.status(500).send({ message: err.message }));
 };
