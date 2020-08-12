@@ -13,9 +13,7 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      validationError(err, req, res);
-    });
+    .catch((err) => validationError(err, req, res));
 };
 
 module.exports.deleteCard = (req, res) => {
@@ -43,9 +41,7 @@ module.exports.likeCard = (req, res) => {
     .orFail(() => {
       res.status(404).send({ message: 'Лайк не ставится!' });
     })
-    .then((card) => {
-      res.send({ data: card });
-    })
+    .then((card) => res.send({ data: card }))
     .catch((err) => res.status(500).send({ message: err.message }));
 };
 
@@ -60,8 +56,6 @@ module.exports.dislikeCard = (req, res) => {
     .orFail(() => {
       res.status(404).send({ message: 'Лайк не удаляется!' });
     })
-    .then((card) => {
-      res.send({ data: card });
-    })
+    .then((card) => res.send({ data: card }))
     .catch((err) => res.status(500).send({ message: err.message }));
 };
