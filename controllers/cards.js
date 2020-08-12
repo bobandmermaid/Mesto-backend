@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { validationError } = require('./validationError');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -12,7 +13,9 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => {
+      validationError(err, req, res);
+    });
 };
 
 module.exports.deleteCard = (req, res) => {

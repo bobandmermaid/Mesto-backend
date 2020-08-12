@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { validationError } = require('./validationError');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -24,7 +25,9 @@ module.exports.createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => {
+      validationError(err, req, res);
+    });
 };
 
 module.exports.updateUser = (req, res) => {
@@ -36,8 +39,11 @@ module.exports.updateUser = (req, res) => {
     { name, about },
     { new: true, runValidators: true },
   )
+    .orFail(() => {
+      res.status(404).send({ message: 'Пользователь не обновляется!' });
+    })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.updateAvatar = (req, res) => {
@@ -49,6 +55,9 @@ module.exports.updateAvatar = (req, res) => {
     { avatar },
     { new: true, runValidators: true },
   )
+    .orFail(() => {
+      res.status(404).send({ message: 'Аватар не обновляется!' });
+    })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
