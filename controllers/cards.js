@@ -27,7 +27,7 @@ module.exports.deleteCard = (req, res) => {
       card.remove();
       res.send({ data: card });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => validationError(err, req, res));
 };
 
 module.exports.likeCard = (req, res) => {
@@ -42,7 +42,7 @@ module.exports.likeCard = (req, res) => {
       res.status(404).send({ message: 'Лайк не ставится!' });
     })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => validationError(err, req, res));
 };
 
 module.exports.dislikeCard = (req, res) => {
@@ -57,5 +57,5 @@ module.exports.dislikeCard = (req, res) => {
       res.status(404).send({ message: 'Лайк не удаляется!' });
     })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => validationError(err, req, res));
 };
