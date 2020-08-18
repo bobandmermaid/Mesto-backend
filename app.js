@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 const { auth } = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
@@ -16,6 +17,11 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+});
+
 const logger = (req, res, next) => {
   console.log('Запрашиваемый путь — ', req.path);
   next();
@@ -25,6 +31,7 @@ app.use(logger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(limiter);
 
 app.use('/signin', require('./routes/users'));
 app.use('/signup', require('./routes/users'));
