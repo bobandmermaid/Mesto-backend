@@ -5,12 +5,13 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { auth } = require('./middlewares/auth');
+require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { DB_CONN, PORT } = process.env;
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect(DB_CONN, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
