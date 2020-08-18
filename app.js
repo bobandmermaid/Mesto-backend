@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { auth } = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 
@@ -23,16 +24,10 @@ app.use(logger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5f29809ff1d6d61370f15062',
-  };
-
-  next();
-});
-
 app.use('/signin', require('./routes/users'));
 app.use('/signup', require('./routes/users'));
+
+app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
