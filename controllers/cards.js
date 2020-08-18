@@ -4,7 +4,9 @@ const { validationError } = require('./validationError');
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res
+      .status(500)
+      .send({ message: err.message }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -21,7 +23,9 @@ module.exports.deleteCard = (req, res) => {
 
   Card.findById(cardId)
     .orFail(() => {
-      res.status(404).send({ message: 'Удалить карточку не представляется возможным!' });
+      res
+        .status(404)
+        .send({ message: 'Удалить карточку не представляется возможным!' });
     })
     .then((card) => {
       card.remove();
@@ -39,7 +43,9 @@ module.exports.likeCard = (req, res) => {
     { new: true },
   )
     .orFail(() => {
-      res.status(404).send({ message: 'Лайк не ставится!' });
+      res
+        .status(404)
+        .send({ message: 'Лайк не ставится!' });
     })
     .then((card) => res.send({ data: card }))
     .catch((err) => validationError(err, req, res));
@@ -54,7 +60,9 @@ module.exports.dislikeCard = (req, res) => {
     { new: true },
   )
     .orFail(() => {
-      res.status(404).send({ message: 'Лайк не удаляется!' });
+      res
+        .status(404)
+        .send({ message: 'Лайк не удаляется!' });
     })
     .then((card) => res.send({ data: card }))
     .catch((err) => validationError(err, req, res));

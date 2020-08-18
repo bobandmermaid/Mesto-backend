@@ -7,7 +7,9 @@ require('dotenv').config();
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res
+      .status(500)
+      .send({ message: err.message }));
 };
 
 module.exports.getUserId = (req, res) => {
@@ -15,7 +17,9 @@ module.exports.getUserId = (req, res) => {
 
   User.findById(userId)
     .orFail(() => {
-      res.status(404).send({ message: 'Нет пользователя с таким id!' });
+      res
+        .status(404)
+        .send({ message: 'Нет пользователя с таким id!' });
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => validationError(err, req, res));
@@ -33,7 +37,9 @@ module.exports.createUser = (req, res) => {
       });
     })
     .then((user) => {
-      res.status(201).send({ _id: user._id, email: user.email });
+      res
+        .status(201)
+        .send({ _id: user._id, email: user.email });
     })
     .catch((err) => validationError(err, req, res));
 };
@@ -48,7 +54,9 @@ module.exports.updateUser = (req, res) => {
     { new: true, runValidators: true },
   )
     .orFail(() => {
-      res.status(404).send({ message: 'Пользователь не обновляется!' });
+      res
+        .status(404)
+        .send({ message: 'Пользователь не обновляется!' });
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => validationError(err, req, res));
@@ -64,7 +72,9 @@ module.exports.updateAvatar = (req, res) => {
     { new: true, runValidators: true },
   )
     .orFail(() => {
-      res.status(404).send({ message: 'Аватар не обновляется!' });
+      res
+        .status(404)
+        .send({ message: 'Аватар не обновляется!' });
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => validationError(err, req, res));
@@ -89,5 +99,7 @@ module.exports.login = (req, res) => {
       })
         .end();
     })
-    .catch((err) => res.status(401).send({ message: err.message }));
+    .catch((err) => res
+      .status(401)
+      .send({ message: err.message }));
 };
