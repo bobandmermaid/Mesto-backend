@@ -31,15 +31,13 @@ module.exports.createUser = (req, res) => {
   } = req.body;
 
   bcrypt.hash(password, 10)
-    .then((hash) => {
-      User.create({
-        name, about, avatar, email, password: hash,
-      });
-    })
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
+    }))
     .then((user) => {
       res
         .status(201)
-        .send({ _id: user._id, email: user.email });
+        .send({ data: user });
     })
     .catch((err) => validationError(err, req, res));
 };
@@ -92,11 +90,12 @@ module.exports.login = (req, res) => {
         { expiresIn: '7d' },
       );
 
-      res.cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
         // sameSite: true,
-      })
+        })
         .end();
     })
     .catch((err) => res

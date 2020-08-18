@@ -23,7 +23,10 @@ module.exports.auth = (req, res, next) => {
   try {
     const { NODE_ENV, JWT_SECRET } = process.env;
 
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'some-strong-secret');
+    payload = jwt.verify(
+      token,
+      NODE_ENV === 'production' ? JWT_SECRET : 'some-strong-secret',
+    );
   } catch (err) {
     return handleAuthError(res);
   }
