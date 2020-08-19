@@ -9,6 +9,12 @@ module.exports.createUser = (req, res) => {
     name, about, avatar, email, password,
   } = req.body;
 
+  if (!password || !email || !avatar || !about || !name) {
+    res
+      .status(400)
+      .send({ message: 'Все поля должны быть заполнены' });
+  }
+
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
@@ -24,6 +30,11 @@ module.exports.createUser = (req, res) => {
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
 
+  if (!password || !email) {
+    res
+      .status(400)
+      .send({ message: 'Поля email или "пароль" должны быть заполнены' });
+  }
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const { NODE_ENV, JWT_SECRET } = process.env;

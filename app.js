@@ -9,11 +9,11 @@ const { createUser, login } = require('./controllers/auth');
 const { auth } = require('./middlewares/auth');
 require('dotenv').config();
 
-const { DB_MONGO, PORT } = process.env;
+const { DB_CONN, PORT } = process.env;
 
 const app = express();
 
-mongoose.connect(DB_MONGO, {
+mongoose.connect(DB_CONN, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

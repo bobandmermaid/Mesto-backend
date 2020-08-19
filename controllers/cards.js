@@ -13,6 +13,12 @@ module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
 
+  if (!name || !link) {
+    res
+      .status(400)
+      .send({ message: 'Все поля должны быть заполнены' });
+  }
+
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
     .catch((err) => validationError(err, req, res));
