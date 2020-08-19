@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -39,6 +40,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.plugin(uniqueValidator, { message: 'Пользователь с таким {PATH}:{VALUE} уже зарегистрирован' });
 // eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')

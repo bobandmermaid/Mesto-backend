@@ -25,14 +25,14 @@ module.exports.deleteCard = async (req, res) => {
   await Card.findById(cardId)
     .orFail(() => {
       res
-        .status(403)
+        .status(404)
         .send({ message: `Неправильный ID=${cardId} карточки!` });
     });
   Card.findOneAndRemove({ _id: cardId, owner: userId })
     .then((card) => {
       if (!card) {
         res
-          .status(404)
+          .status(403)
           .send({ message: 'Это не ваша карточка!' });
       }
       res.send({ data: card });
