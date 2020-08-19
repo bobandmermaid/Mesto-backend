@@ -18,17 +18,23 @@ module.exports.createCard = (req, res) => {
     .catch((err) => validationError(err, req, res));
 };
 
-module.exports.deleteCard = (req, res) => {
+module.exports.deleteCard = async (req, res) => {
   const { cardId } = req.params;
+  const userId = req.user._id;
 
-  Card.findById(cardId)
+  await Card.findById(cardId)
     .orFail(() => {
       res
-        .status(404)
-        .send({ message: 'Удалить карточку не представляется возможным!' });
-    })
+        .status(403)
+        .send({ message: `Неправильный ID=${cardId} карточки!` });
+    });
+  Card.findOneAndRemove({ _id: cardId, owner: userId })
     .then((card) => {
-      card.remove();
+      if (!card) {
+        res
+          .status(404)
+          .send({ message: 'Это не ваша карточка!' });
+      }
       res.send({ data: card });
     })
     .catch((err) => validationError(err, req, res));
@@ -45,7 +51,7 @@ module.exports.likeCard = (req, res) => {
     .orFail(() => {
       res
         .status(404)
-        .send({ message: 'Лайк не ставится!' });
+        .send({ message: `Неправильный ID=${cardId} карточки!` });
     })
     .then((card) => res.send({ data: card }))
     .catch((err) => validationError(err, req, res));
@@ -62,7 +68,7 @@ module.exports.dislikeCard = (req, res) => {
     .orFail(() => {
       res
         .status(404)
-        .send({ message: 'Лайк не удаляется!' });
+        .send({ message: `Неправильный ID=${cardId} карточки!` });
     })
     .then((card) => res.send({ data: card }))
     .catch((err) => validationError(err, req, res));

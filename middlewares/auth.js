@@ -1,23 +1,16 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const handleAuthError = (res) => {
-  res
-    .status(401)
-    .send({ message: 'Необходима авторизация' });
-};
-
-const extractBearerToken = (header) => header.replace('Bearer ', '');
-
 // eslint-disable-next-line consistent-return
 module.exports.auth = (req, res, next) => {
-  const { authorization } = req.headers;
-
-  if (!authorization || authorization.startsWith('Bearer ')) {
-    return handleAuthError(res);
+  if (!req.cookies.jwt) {
+    return res
+      .status(401)
+      .send({ message: 'Необходима авторизация' });
   }
 
-  const token = extractBearerToken(authorization);
+  const token = req.cookies.jwt;
+
   let payload;
 
   try {
@@ -28,7 +21,9 @@ module.exports.auth = (req, res, next) => {
       NODE_ENV === 'production' ? JWT_SECRET : 'some-strong-secret',
     );
   } catch (err) {
-    return handleAuthError(res);
+    return res
+      .status(401)
+      .send({ message: 'Необходима авторизация' });
   }
 
   req.user = payload;

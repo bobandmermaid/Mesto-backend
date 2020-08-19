@@ -4,14 +4,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
+const { createUser, login } = require('./controllers/auth');
 const { auth } = require('./middlewares/auth');
 require('dotenv').config();
 
-const { DB_CONN, PORT } = process.env;
+const { DB_MONGO, PORT } = process.env;
 
 const app = express();
 
-mongoose.connect(DB_CONN, {
+mongoose.connect(DB_MONGO, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -34,8 +35,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(limiter);
 
-app.use('/signin', require('./routes/users'));
-app.use('/signup', require('./routes/users'));
+app.post('/signin', login);
+app.post('/signup', createUser);
 
 app.use(auth);
 app.use('/users', require('./routes/users'));
