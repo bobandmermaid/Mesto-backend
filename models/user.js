@@ -40,9 +40,11 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.plugin(uniqueValidator, { message: 'Пользователь с таким {PATH}:{VALUE} уже зарегистрирован' });
-// eslint-disable-next-line func-names
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.plugin(uniqueValidator, {
+  message: 'Пользователь с таким {PATH}:{VALUE} уже зарегистрирован',
+});
+
+userSchema.statics.findUserByCredentials = function loginController(email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {

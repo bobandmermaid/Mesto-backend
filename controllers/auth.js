@@ -33,7 +33,7 @@ module.exports.login = (req, res) => {
   if (!password || !email) {
     res
       .status(400)
-      .send({ message: 'Поля email или "пароль" должны быть заполнены' });
+      .send({ message: 'Поля email и "пароль" должны быть заполнены' });
   }
   return User.findUserByCredentials(email, password)
     .then((user) => {
