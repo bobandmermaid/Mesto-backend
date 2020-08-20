@@ -2,14 +2,15 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/bobandmermaid/Mesto-backend?style=flat-square) 
 
 ### О проекте
-+ REST API проекта Mesto(связано с базой данных).     
++ REST API проекта Mesto.     
 `Учебный проект сделанный для Яндекс.Практикум`
 
 ### Функциональность
 
+    POST /signup — регистрация пользователя с переданными в теле запроса name, about, avatar, email, password
+    POST /signin — авторизация пользователя по email и password 
     GET /users — возвращает всех пользователей из базы
     GET /users/:userId - возвращает пользователя по _id
-    POST /users — создаёт пользователя с переданными в теле запроса name, about и avatar
     GET /cards — возвращает все карточки из базы
     POST /cards — создаёт карточку с переданными в теле запроса name и link
     DELETE /cards/:cardId — удаляет карточку по _id
@@ -22,6 +23,7 @@
 `Node.js`  
 `Express.js`  
 `MongoDB`
+`ESlint`
 
 ### Развёртывание проекта
 1. Установить `Node.js`
