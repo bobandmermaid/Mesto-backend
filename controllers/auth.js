@@ -22,7 +22,9 @@ module.exports.createUser = (req, res) => {
     .then((user) => {
       res
         .status(201)
-        .send({ data: user });
+        .send({
+          data: user.name, about, avatar, email,
+        });
     })
     .catch((err) => validationError(err, req, res));
 };
