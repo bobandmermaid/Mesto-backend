@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.trim(v),
-      message: (props) => `${props.value} пробелы недопустимы!`,
+      message: 'пробелы недопустимы!',
     },
     minlength: 2,
     maxlength: 30,
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.trim(v),
-      message: (props) => `${props.value} пробелы недопустимы!`,
+      message: 'пробелы недопустимы!',
     },
     minlength: 2,
     maxlength: 30,
