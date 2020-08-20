@@ -9,7 +9,9 @@ const { createUser, login } = require('./controllers/auth');
 const { auth } = require('./middlewares/auth');
 require('dotenv').config();
 
-const { DB_CONN, PORT } = process.env;
+const {
+  DB_CONN = 'mongodb://localhost:27017/mestodb', PORT = '3000',
+} = process.env;
 
 const app = express();
 
