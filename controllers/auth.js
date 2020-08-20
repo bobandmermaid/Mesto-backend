@@ -13,7 +13,7 @@ module.exports.createUser = (req, res) => {
     res
       .status(400)
       .send({ message: 'Все поля должны быть заполнены' });
-  } else if (password.length < 10) {
+  } else if (password.length < 10 || password.trim().length === 0) {
     res
       .status(400)
       .send({ message: 'Пароль должен быть минимум 10 символов' });
