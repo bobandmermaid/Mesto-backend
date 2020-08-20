@@ -7,7 +7,8 @@
 
 ### Функциональность
 
-    POST /signup — регистрация пользователя с переданными в теле запроса name, about, avatar, email, password
+    POST /signup — регистрация пользователя с переданными в теле запроса:    
+     name, about, avatar, email, password
     POST /signin — авторизация пользователя по email и password 
     GET /users — возвращает всех пользователей из базы
     GET /users/:userId - возвращает пользователя по _id
@@ -22,7 +23,7 @@
 ### Стек
 `Node.js`  
 `Express.js`  
-`MongoDB`
+`MongoDB`   
 `ESlint`
 
 ### Развёртывание проекта
