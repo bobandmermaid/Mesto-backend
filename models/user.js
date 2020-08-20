@@ -7,12 +7,20 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    validate: {
+      validator: (v) => validator.trim(v),
+      message: (props) => `${props.value} пробелы недопустимы!`,
+    },
     minlength: 2,
     maxlength: 30,
   },
   about: {
     type: String,
     required: true,
+    validate: {
+      validator: (v) => validator.trim(v),
+      message: (props) => `${props.value} пробелы недопустимы!`,
+    },
     minlength: 2,
     maxlength: 30,
   },
