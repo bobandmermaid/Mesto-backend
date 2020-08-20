@@ -23,11 +23,11 @@ module.exports.createUser = (req, res) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => {
+    .then(() => {
       res
         .status(201)
         .send({
-          _id: user._id, email: user.email,
+          message: 'Пользователь успешно добавлен',
         });
     })
     .catch((err) => validationError(err, req, res));
