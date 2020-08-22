@@ -30,7 +30,17 @@ module.exports.createUser = (req, res) => {
           message: 'Пользователь успешно добавлен',
         });
     })
-    .catch((err) => validationError(err, req, res));
+    .catch((err) => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return res
+          .status(409)
+          .send({
+            message: `Пользователь с таким Email=${email} уже зарегестрирован!`,
+          });
+      }
+
+      validationError(err, req, res);
+    });
 };
 
 module.exports.login = (req, res) => {
