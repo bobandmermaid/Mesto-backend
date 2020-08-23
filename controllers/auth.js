@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const escape = require('escape-html');
 const User = require('../models/user');
 const { validationError } = require('./validationError');
 require('dotenv').config();
@@ -23,7 +24,11 @@ module.exports.createUser = (req, res) => {
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
+      name: escape(name),
+      about: escape(about),
+      avatar: escape(avatar),
+      email: escape(email),
+      password: hash,
     }))
     .then(() => {
       res

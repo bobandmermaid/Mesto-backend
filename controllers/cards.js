@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+const escape = require('escape-html');
 const Card = require('../models/card');
 const { validationError } = require('./validationError');
 
@@ -20,7 +21,7 @@ module.exports.createCard = (req, res) => {
       .send({ message: 'Все поля должны быть заполнены' });
   }
 
-  Card.create({ name, link, owner })
+  Card.create({ name: escape(name), link: escape(link), owner })
     .then((card) => res.send({ data: card }))
     .catch((err) => validationError(err, req, res));
 };
