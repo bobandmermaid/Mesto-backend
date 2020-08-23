@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const Card = require('../models/card');
 const { validationError } = require('./validationError');
 
@@ -14,7 +15,7 @@ module.exports.createCard = (req, res) => {
   const owner = req.user._id;
 
   if (!name || !link) {
-    res
+    return res
       .status(400)
       .send({ message: 'Все поля должны быть заполнены' });
   }
@@ -37,7 +38,7 @@ module.exports.deleteCard = async (req, res) => {
   Card.findOneAndRemove({ _id: cardId, owner: userId })
     .then((card) => {
       if (!card) {
-        res
+        return res
           .status(403)
           .send({ message: 'Это не ваша карточка!' });
       }

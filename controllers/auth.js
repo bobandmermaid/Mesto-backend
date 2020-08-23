@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -10,11 +11,12 @@ module.exports.createUser = (req, res) => {
   } = req.body;
 
   if (!password || !email || !avatar || !about || !name) {
-    res
+    return res
       .status(400)
       .send({ message: 'Все поля должны быть заполнены' });
-  } else if (password.length < 10 || password.trim().length === 0) {
-    res
+  }
+  if (password.length < 10 || password.trim().length === 0) {
+    return res
       .status(400)
       .send({ message: 'Пароль должен быть минимум 10 символов' });
   }
@@ -47,7 +49,7 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
 
   if (!password || !email) {
-    res
+    return res
       .status(400)
       .send({ message: 'Поля email и "пароль" должны быть заполнены' });
   }

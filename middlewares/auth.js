@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -5,7 +6,7 @@ module.exports.auth = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    res
+    return res
       .status(401)
       .send({ message: 'Необходима авторизация' });
   }
@@ -20,7 +21,7 @@ module.exports.auth = (req, res, next) => {
     payload = jwt.verify(token,
       NODE_ENV === 'production' ? JWT_SECRET : 'some-strong-secret');
   } catch (err) {
-    res
+    return res
       .status(401)
       .send({ message: 'Необходима авторизация' });
   }
