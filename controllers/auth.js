@@ -55,7 +55,7 @@ module.exports.login = (req, res) => {
   }
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const { NODE_ENV, JWT_SECRET } = process.env;
+      const { NODE_ENV, JWT_SECRET = 'dev-key' } = process.env;
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'some-strong-secret',

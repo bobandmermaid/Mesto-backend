@@ -16,7 +16,7 @@ module.exports.auth = (req, res, next) => {
   let payload;
 
   try {
-    const { NODE_ENV, JWT_SECRET } = process.env;
+    const { NODE_ENV, JWT_SECRET = 'dev-key' } = process.env;
 
     payload = jwt.verify(token,
       NODE_ENV === 'production' ? JWT_SECRET : 'some-strong-secret');
