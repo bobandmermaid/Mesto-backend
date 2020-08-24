@@ -1,9 +1,28 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const escape = require('escape-html');
+const passwordValidator = require('password-validator');
 const User = require('../models/user');
 const { validationError } = require('./validationError');
 require('dotenv').config();
+
+// eslint-disable-next-line new-cap
+const schemaPassword = new passwordValidator();
+schemaPassword
+  .is()
+  .min(10)
+  .is()
+  .max(100)
+  .has()
+  .uppercase()
+  .has()
+  .lowercase()
+  .has()
+  .digits(2)
+  .has()
+  .not()
+  .spaces();
 
 module.exports.createUser = (req, res) => {
   const {
@@ -15,34 +34,40 @@ module.exports.createUser = (req, res) => {
       .status(400)
       .send({ message: 'Все поля должны быть заполнены' });
   }
-  if (password.length < 10 || password.trim().length === 0) {
+  if (schemaPassword.validate(password)) {
+    bcrypt.hash(escape(password), 10)
+      .then((hash) => User.create({
+        name: escape(name),
+        about: escape(about),
+        avatar: escape(avatar),
+        email: escape(email),
+        password: hash,
+      }))
+      .then(() => {
+        res
+          .status(201)
+          .send({
+            message: 'Пользователь успешно добавлен',
+          });
+      })
+      .catch((err) => {
+        if (err.name === 'MongoError' && err.code === 11000) {
+          return res
+            .status(409)
+            .send({
+              message: `Пользователь с таким Email=${email} уже зарегестрирован!`,
+            });
+        }
+
+        validationError(err, req, res);
+      });
+  } else {
     return res
       .status(400)
-      .send({ message: 'Пароль должен быть минимум 10 символов' });
+      .send({
+        message: 'Пароль должен содержать минимум 10 символов, строчные/прописные буквы, 2 цифры',
+      });
   }
-
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
-    }))
-    .then(() => {
-      res
-        .status(201)
-        .send({
-          message: 'Пользователь успешно добавлен',
-        });
-    })
-    .catch((err) => {
-      if (err.name === 'MongoError' && err.code === 11000) {
-        return res
-          .status(409)
-          .send({
-            message: `Пользователь с таким Email=${email} уже зарегестрирован!`,
-          });
-      }
-
-      validationError(err, req, res);
-    });
 };
 
 module.exports.login = (req, res) => {
