@@ -93,7 +93,7 @@ module.exports.login = (req, res) => {
           httpOnly: true,
           // sameSite: true,
         })
-        .end();
+        .end('Токен отправлен');
     })
     .catch((err) => res
       .status(401)
