@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
-const { createUser, login } = require('./controllers/auth');
+const { signup, signin } = require('./routes/auth');
 const { auth } = require('./middlewares/auth');
 require('dotenv').config();
 
@@ -39,8 +39,8 @@ app.use(cookieParser());
 app.use(limiter);
 app.use(helmet());
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.use('/signup', signup);
+app.use('/signin', signin);
 
 app.use(auth);
 app.use('/users', require('./routes/users'));
