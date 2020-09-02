@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const validator = require('validator');
 const { celebrate, Joi } = require('celebrate');
+const validUrl = require('./validUrl');
 
 const {
   getUsers, getUserId, updateUser, updateAvatar,
@@ -25,13 +25,7 @@ router.patch('/me', celebrate({
 
 router.patch('/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.required().custom((v) => {
-      if (!validator.isURL(v)) {
-        throw new BadRequest('Недопустимй адрес');
-      } else {
-        return v;
-      }
-    }),
+    avatar: Joi.required().custom((v) => validUrl(v)),
   }),
 }), updateAvatar);
 

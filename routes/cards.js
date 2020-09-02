@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const validator = require('validator');
 const { celebrate, Joi } = require('celebrate');
+const validUrl = require('./validUrl');
 
 const {
   getCards, createCard, deleteCard, likeCard, dislikeCard,
@@ -13,13 +13,7 @@ router.get('/', getCards);
 router.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.required().custom((v) => {
-      if (!validator.isURL(v)) {
-        throw new BadRequest('Недопустимй адрес');
-      } else {
-        return v;
-      }
-    }),
+    link: Joi.required().custom((v) => validUrl(v)),
   }),
 }), createCard);
 

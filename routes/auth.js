@@ -1,19 +1,15 @@
 const signup = require('express').Router();
 const signin = require('express').Router();
-const validator = require('validator');
 
 const { celebrate, Joi } = require('celebrate');
 const { createUser, login } = require('../controllers/auth');
+const validUrl = require('./validUrl');
 
 signup.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
-    avatar: Joi.required().custom((v) => {
-      if (!validator.isURL(v)) {
-        throw new BadRequest('Недопустимй адрес');
-      } else { return v; }
-    }),
+    avatar: Joi.required().custom((v) => validUrl(v)),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(10),
   }),
