@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { signup, signin } = require('./routes/auth');
 const { auth } = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 require('dotenv').config();
 
 const {
@@ -39,12 +40,16 @@ app.use(cookieParser());
 app.use(limiter);
 app.use(helmet());
 
+app.use(requestLogger);
+
 app.use('/signup', signup);
 app.use('/signin', signin);
 
 app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
+
+app.use(errorLogger);
 
 app.use((req, res) => {
   res
