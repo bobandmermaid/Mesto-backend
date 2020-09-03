@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
@@ -11,6 +12,7 @@ const { signup, signin } = require('./routes/auth');
 const { auth } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const InValidUrl = require('./InValidUrl');
+const HandlerError = require('./middlewares/HandlerError');
 
 require('dotenv').config();
 
@@ -55,7 +57,9 @@ app.use('/cards', require('./routes/cards'));
 
 app.use(errorLogger);
 
+app.use(errors());
 app.use('*', InValidUrl);
+app.use('/', HandlerError);
 
 app.listen(PORT, () => {
   console.log(`Порт: ${PORT}`);
