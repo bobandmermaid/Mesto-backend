@@ -11,14 +11,17 @@ signup.post('/', celebrate({
     about: Joi.string().required().min(2).max(30),
     avatar: Joi.required().custom((v) => validUrl(v)),
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(10),
+    password: Joi.string().pattern(
+      new RegExp('^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!&$%#? "])(?=\\S+$).*$'),
+    ).message('Пароль должен содержать строчные, прописные буквы, цифры, спецсимволы. Минимум 8 символов'),
+    repeat_password: Joi.ref('password'),
   }),
 }), createUser);
 
 signin.post('/', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(10),
+    password: Joi.string().required().min(8),
   }),
 }), login);
 
