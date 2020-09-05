@@ -59,7 +59,7 @@ module.exports.likeCard = async (req, res, next) => {
 module.exports.dislikeCard = async (req, res, next) => {
   const { cardId } = req.params;
   try {
-    const card = Card.findByIdAndUpdate(
+    const card = await Card.findByIdAndUpdate(
       cardId,
       { $pull: { likes: req.user._id } },
       { new: true },
