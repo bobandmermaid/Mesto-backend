@@ -34,6 +34,7 @@
 ### Доступ к серверу
 + IP адрес: http://130.193.37.224
 + Фронтенд проекта: https://bobandmermaid.tk
++ Бэкенд проекта: https://api.bobandmermaid.tk/
 
 ### Развертывание проекта
 1. Клонировать репозиторий `https://github.com/bobandmermaid/Mesto-backend.git`
