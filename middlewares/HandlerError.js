@@ -3,12 +3,10 @@ function HandlerError(err, req, res, next) {
 
   if (err.name === 'ValidationError') {
     statusCode = 400;
-  }
-  if (err.name === 'CastError') {
+  } else if (err.name === 'CastError') {
     statusCode = 400;
     message = 'id не найден';
-  }
-  if (err.code === 11000) {
+  } else if (err.code === 11000) {
     statusCode = 409;
     message = 'Этот email уже используется';
   }

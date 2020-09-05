@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
-
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
