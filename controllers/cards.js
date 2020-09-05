@@ -59,12 +59,13 @@ module.exports.likeCard = async (req, res, next) => {
 module.exports.dislikeCard = async (req, res, next) => {
   const { cardId } = req.params;
   try {
-    Card.findByIdAndUpdate(
+    const card = Card.findByIdAndUpdate(
       cardId,
       { $pull: { likes: req.user._id } },
       { new: true },
     )
       .orFail(() => new NotFoundError('Карточки не существует'));
+    return res.send(card);
   } catch (err) {
     return next(err);
   }
