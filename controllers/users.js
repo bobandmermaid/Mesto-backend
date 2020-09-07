@@ -1,59 +1,55 @@
+/* eslint-disable consistent-return */
 const User = require('../models/user');
-const { validationError } = require('./validationError');
+const NotFoundError = require('../errors/not-found-err');
 
-module.exports.getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.send({ data: users }))
-    .catch((err) => res
-      .status(500)
-      .send({ message: err.message }));
+module.exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    return res.send(users);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-module.exports.getUserId = (req, res) => {
+module.exports.getUserId = async (req, res, next) => {
   const { userId } = req.params;
-
-  User.findById(userId)
-    .orFail(() => {
-      res
-        .status(404)
-        .send({ message: `Неправильный ID=${userId} пользователя!` });
-    })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => validationError(err, req, res));
+  try {
+    const user = await User.findById(userId)
+      .orFail(() => new NotFoundError('Такого пользователя нет'));
+    return res.send(user);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = async (req, res, next) => {
   const { name, about } = req.body;
   const owner = req.user._id;
-
-  User.findByIdAndUpdate(
-    owner,
-    { name, about },
-    { new: true, runValidators: true },
-  )
-    .orFail(() => {
-      res
-        .status(404)
-        .send({ message: `Неправильный ID=${owner} пользователя!` });
-    })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => validationError(err, req, res));
+  try {
+    const user = await User.findByIdAndUpdate(
+      owner,
+      { name, about },
+      { new: true, runValidators: true },
+    )
+      .orFail(() => new NotFoundError('Такого пользователя нет'));
+    return res.send(user);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-module.exports.updateAvatar = (req, res) => {
+module.exports.updateAvatar = async (req, res, next) => {
   const { avatar } = req.body;
   const owner = req.user._id;
-
-  User.findByIdAndUpdate(
-    owner,
-    { avatar },
-    { new: true, runValidators: true },
-  )
-    .orFail(() => {
-      res
-        .status(404)
-        .send({ message: `Неправильный ID=${owner} пользователя!` });
-    })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => validationError(err, req, res));
+  try {
+    const user = await User.findByIdAndUpdate(
+      owner,
+      { avatar },
+      { new: true, runValidators: true },
+    )
+      .orFail(() => new NotFoundError('Такого пользователя нет'));
+    return res.send(user);
+  } catch (err) {
+    return next(err);
+  }
 };

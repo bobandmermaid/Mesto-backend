@@ -3,10 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
-const { createUser, login } = require('./controllers/auth');
+
+const { signup, signin } = require('./routes/auth');
 const { auth } = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const InValidUrl = require('./InValidUrl');
+const HandlerError = require('./middlewares/HandlerError');
+
 require('dotenv').config();
 
 const {
@@ -39,18 +45,26 @@ app.use(cookieParser());
 app.use(limiter);
 app.use(helmet());
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
+app.use('/signup', signup);
+app.use('/signin', signin);
 
 app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
-app.use((req, res) => {
-  res
-    .status(404)
-    .send({ message: 'Запрашиваемый ресурс не найден!' });
-});
+app.use(errorLogger);
+
+app.use(errors());
+app.use('*', InValidUrl);
+app.use('/', HandlerError);
 
 app.listen(PORT, () => {
   console.log(`Порт: ${PORT}`);
