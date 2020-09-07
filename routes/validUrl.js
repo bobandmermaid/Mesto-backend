@@ -3,7 +3,7 @@ const BadRequestError = require('../errors/bad-request-err');
 
 module.exports = (v) => {
   if (!validator.isURL(v)) {
-    throw new BadRequestError('Недопустимй адрес');
+    throw new BadRequestError('Недопустимый адрес');
   } else {
     return v;
   }
