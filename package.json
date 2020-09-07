@@ -1,6 +1,6 @@
 {
   "name": "mesto_back",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "The REST API of the project Mesto",
   "main": "app.js",
   "scripts": {
