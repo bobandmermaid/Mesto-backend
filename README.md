@@ -7,7 +7,8 @@
 
 ### Функциональность
     Запросы с сервера - https://api.bobandmermaid.tk/        
-    (например https://api.bobandmermaid.tk/users)
+    (пример: https://api.bobandmermaid.tk/users
+    отправлять можно через Postman)
     
     POST /signup — регистрация пользователя с переданными в теле запроса:    
      name, about, avatar, email, password
