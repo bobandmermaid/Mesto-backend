@@ -2,13 +2,13 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/bobandmermaid/Mesto-backend?style=flat-square) 
 
 ### О проекте
-+ Mesto – интерактивный сервис для работы с фотографиями.           
++ Backend проекта Mesto (https://github.com/bobandmermaid/Mesto)           
 `Учебный проект сделанный для Яндекс.Практикум`
 
 ### Функциональность
     Запросы с сервера - https://api.bobandmermaid.tk/        
     (пример: https://api.bobandmermaid.tk/users
-    отправлять можно через Postman)
+    отправлять через Postman)
     
     POST /signup — регистрация пользователя с переданными в теле запроса:    
      name, about, avatar, email, password
@@ -41,9 +41,8 @@
 
 ### Доступ к серверу
 + IP адрес: http://84.201.157.174
++ Бэкенд проекта: https://api.bobandmermaid.tk/        
 + Фронтенд проекта: https://bobandmermaid.tk/      
-(https://github.com/bobandmermaid/Mesto)
-+ Бэкенд проекта: https://api.bobandmermaid.tk/
 
 ### Развертывание проекта
 1. Установить `Node.js`

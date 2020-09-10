@@ -5,10 +5,10 @@ function HandlerError(err, req, res, next) {
     statusCode = 400;
   } else if (err.name === 'CastError') {
     statusCode = 400;
-    message = 'id не найден';
+    message = 'ID not found';
   } else if (err.code === 11000) {
     statusCode = 409;
-    message = 'Этот email уже используется';
+    message = 'This email is already in use';
   }
   res.status(statusCode).send({
     message: statusCode === 500 ? 'Произошла ошибка' : message,
