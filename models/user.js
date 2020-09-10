@@ -46,6 +46,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
+},
+{
+  versionKey: false,
 });
 
 userSchema.statics.findUserByCredentials = function loginController(email, password) {
