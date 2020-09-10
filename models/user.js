@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.trim(v),
-      message: 'пробелы недопустимы!',
+      message: 'Spaces are not allowed',
     },
     minlength: 2,
     maxlength: 30,
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.trim(v),
-      message: 'пробелы недопустимы!',
+      message: 'Spaces are not allowed',
     },
     minlength: 2,
     maxlength: 30,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: (props) => `${props.value} недопустимый адрес!`,
+      message: (props) => `${props.value} Invalid address`,
     },
   },
   email: {
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: (props) => `${props.value} недопустимый email!`,
+      message: (props) => `${props.value} Invalid email`,
     },
   },
   password: {
@@ -52,13 +52,13 @@ userSchema.statics.findUserByCredentials = function loginController(email, passw
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new UnauthorizedError('Неправильные почта или пароль'));
+        return Promise.reject(new UnauthorizedError('Incorrect email or password'));
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new UnauthorizedError('Неправильные почта или пароль'));
+            return Promise.reject(new UnauthorizedError('Incorrect email or password'));
           }
 
           return user;

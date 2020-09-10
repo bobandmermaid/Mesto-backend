@@ -15,7 +15,7 @@ module.exports.getUserId = async (req, res, next) => {
   const { userId } = req.params;
   try {
     const user = await User.findById(userId)
-      .orFail(() => new NotFoundError('Такого пользователя нет'));
+      .orFail(() => new NotFoundError('There is no such user'));
     return res.send(user);
   } catch (err) {
     return next(err);
@@ -31,7 +31,7 @@ module.exports.updateUser = async (req, res, next) => {
       { name, about },
       { new: true, runValidators: true },
     )
-      .orFail(() => new NotFoundError('Такого пользователя нет'));
+      .orFail(() => new NotFoundError('There is no such user'));
     return res.send(user);
   } catch (err) {
     return next(err);
@@ -47,7 +47,7 @@ module.exports.updateAvatar = async (req, res, next) => {
       { avatar },
       { new: true, runValidators: true },
     )
-      .orFail(() => new NotFoundError('Такого пользователя нет'));
+      .orFail(() => new NotFoundError('There is no such user'));
     return res.send(user);
   } catch (err) {
     return next(err);
