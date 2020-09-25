@@ -40,7 +40,7 @@
 `ESlint`
 
 ### Доступ к серверу
-+ IP адрес: http://84.201.157.174
++ IP адрес: http://84.201.133.43
 + Бэкенд проекта: https://api.bobandmermaid.tk/        
 + Фронтенд проекта: https://bobandmermaid.tk/      
 
